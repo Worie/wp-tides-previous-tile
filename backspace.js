@@ -1,8 +1,10 @@
 
-// Change the native hashchange of custom.js
+// Remove the defeault hashchange event
 
 jQuery(window).unbind('hashchange');
 
+
+// Extend the default hashchange event of Tides Theme
 
 jQuery(window).on('hashchange',function(ev){
 		var url = location.hash;
@@ -35,6 +37,7 @@ jQuery(window).on('hashchange',function(ev){
 
 
 
+// Load the previous subpage
 
 function previous(ev){
 	backspaceCarrige--;
@@ -42,45 +45,54 @@ function previous(ev){
 	var tmp = backspaceHistory[backspaceCarrige];
 	
 	if(tmp!='#'){
-		console.log('wbilem do '+tmp);
 		backspaceStop = true;
 		tmp.click();
 		ev.preventDefault();
 		
-	}else{console.log('dont prevent');history.back();}
-	console.log('carrige'+backspaceCarrige);
-	console.log('history'+backspaceHistory);
+	}else{
+		history.back();
+	}
 }
 
 
 
-
+// Initialize variables 
 jQuery(document).ready(function(){
 
-backspaceStop=false;
-backspaceHistory = [];
-backspaceHistory[0]='#';
-backspaceCarrige = 1;
-backspacePortfolioClose = jQuery("<div></div>");
-backspacePortfolioClose.click(function (){
+	backspaceStop=false;
+	backspaceHistory = [];
+	backspaceHistory[0]='#';
+	backspaceCarrige = 1;
+	backspacePortfolioClose = jQuery("<div></div>");
 
-jQuery('#loader').removeClass('fadeInUp').addClass('fadeOutDown').delay(999).hide(1);
-setTimeout(function(){
-jQuery('#loader').html(' ');
-}, 999);
-jQuery('#isotope-portfolio, #load-more-wrapper').delay(1000).slideDown(function(){
-jQuery('#isotope-portfolio').isotope('reLayout');
-}).removeClass('fadeOutLeft').addClass('fadeInRight');
-jQuery('#filters').delay(999).show(1).removeClass('fadeOutUp').addClass('fadeInDown');
+	// Does the same as AJAX TILE X button, but is always available to use
+	backspacePortfolioClose.click(function (){
 
-return false;
+		jQuery('#loader').removeClass('fadeInUp').addClass('fadeOutDown').delay(999).hide(1);
+	
+		setTimeout(function(){
+			jQuery('#loader').html(' ');
+		}, 999);
+
+		jQuery('#isotope-portfolio, #load-more-wrapper').delay(1000).slideDown(function(){
+			jQuery('#isotope-portfolio').isotope('reLayout');
+		}).removeClass('fadeOutLeft').addClass('fadeInRight');
+	
+		jQuery('#filters').delay(999).show(1).removeClass('fadeOutUp').addClass('fadeInDown');
+
+		return false;
+	});
+	
+	backspacePrevious = jQuery('.button[href^="*"]')[0]; 
 });
-backspacePrevious = jQuery('.button[href^="*"]')[0]; 
-});
 
+// Extend the on click event handler with creating a log
 
 jQuery('.button[href^="*"],.button[href^="."],.isotope-alt-image,#selectnav> li >a[href^="#"]').click(function(){
-	if(backspaceStop){backspaceStop=false;return false;}
+	
+	if(backspaceStop){
+		backspaceStop=false;return false;
+	}
 			
 
 
@@ -99,10 +111,7 @@ jQuery('.button[href^="*"],.button[href^="."],.isotope-alt-image,#selectnav> li 
 	
 	else if(el.hasClass('ajax-link') && el.hasClass('isotope-alt-image')){
 	
-	backspaceHistory[backspaceCarrige]=backspacePortfolioClose;
-	location.href="#backspacejs"+backspaceCarrige;
-	backspaceCarrige++;
-	backspaceHistory[backspaceCarrige]=el;
+		backspaceHistory[backspaceCarrige]=backspacePortfolioClose;
 	
 	}
 	else if(typeof el.attr('class')==='undefined' || el.attr('class')==''){
@@ -113,8 +122,5 @@ jQuery('.button[href^="*"],.button[href^="."],.isotope-alt-image,#selectnav> li 
 
 
 	backspaceCarrige++;
-location.href="#backspacejs"+backspaceCarrige;
-
-	console.log('carrige'+backspaceCarrige);
-	console.log('history'+backspaceHistory);
+	location.href="#backspacejs"+backspaceCarrige;
 });
