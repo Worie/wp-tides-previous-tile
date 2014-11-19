@@ -24,6 +24,7 @@ jQuery(window).on('hashchange',function(ev){
 			jQuery("html, body").animate({ scrollTop: jQuery(url).offset().top - minus }, 500);
 		}else{
 			if(url.indexOf('backspacejs'+parseInt(backspaceCarrige-1))>-1){
+				if(url.indexOf('@')>-1)
 				previous(ev);
 			}
 		}
@@ -55,6 +56,7 @@ function previous(ev){
 
 
 jQuery(document).ready(function(){
+
 backspaceStop=false;
 backspaceHistory = [];
 backspaceHistory[0]='#';
@@ -98,8 +100,7 @@ jQuery('.button[href^="*"],.button[href^="."],.isotope-alt-image,#selectnav> li 
 	else if(el.hasClass('ajax-link') && el.hasClass('isotope-alt-image')){
 	
 	backspaceHistory[backspaceCarrige]=backspacePortfolioClose;
-				location.href="#backspacejs"+backspaceCarrige;
-
+	location.href="#backspacejs"+backspaceCarrige;
 	backspaceCarrige++;
 	backspaceHistory[backspaceCarrige]=el;
 	
